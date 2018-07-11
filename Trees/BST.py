@@ -187,7 +187,22 @@ class BinarySearchTree:
             successor_node = findmin(cur_node.right_child)
             cur_node.data = successor_node.data
             self._remove(successor_node)
+    
+    def mirror(self):
+        if self.root is None:
+            print("Tree is empty")
+            return
+        else:
+            self._mirror(self.root)
+    
+    def _mirror(self, cur_node):
 
+        if cur_node != None:
+            self._mirror(cur_node.left_child)
+            self._mirror(cur_node.right_child)
+            temp = cur_node.left_child
+            cur_node.left_child = cur_node.right_child
+            cur_node.right_child = temp
 
 BST = BinarySearchTree()
 BST.add(5)
@@ -204,6 +219,5 @@ BST.preorder_traversal()
 BST.postorder_traversal()
 BST.levelorder_traversal()
 print("The height is: ",BST.height())
-BST.remove(5)
-print("Tree after removal")
-BST.inorder_traversal()
+BST.mirror()
+BST.levelorder_traversal()
