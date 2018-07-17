@@ -203,10 +203,51 @@ class BinarySearchTree:
             temp = cur_node.left_child
             cur_node.left_child = cur_node.right_child
             cur_node.right_child = temp
+    
+    def boundary(self):
+        if self.root is None:
+            print("Tree is empty")
+            return
+        else:
+            boundary_list = list()
+            return self._bounday(self.root,boundary_list)
+
+    def _bounday(self, cur_node, boundary_list):
+        def left_leaf(cur_node):
+            if cur_node != None:
+                boundary_list.append(cur_node.data)
+                if cur_node.left_child != None:
+                    left_leaf(cur_node.left_child)
+                elif cur_node.right_child != None:
+                    left_leaf(cur_node.right_child)
+        
+        def right_leaf(cur_node):
+            if cur_node != None:
+                if cur_node.data not in boundary_list:
+                    boundary_list.append(cur_node.data)
+                if cur_node.right_child != None:
+                    right_leaf(cur_node.right_child)
+                elif cur_node.left_child != None:
+                    right_leaf(cur_node.left_child)
+        
+        def leaf(cur_node):
+            if cur_node != None:
+                leaf(cur_node.left_child)
+                if cur_node.left_child == None and cur_node.right_child == None:
+                    if cur_node.data not in boundary_list:
+                        boundary_list.append(cur_node.data)
+                leaf(cur_node.right_child)
+
+        left_leaf(cur_node)
+        right_leaf(cur_node.right_child)
+        leaf(cur_node)
+        return boundary_list
+
 
 BST = BinarySearchTree()
-BST.add(5)
+BST.add(6)
 BST.add(4)
+BST.add(5)
 BST.add(2)
 BST.add(9)
 BST.add(90)
@@ -214,10 +255,12 @@ BST.add(8)
 BST.add(3)
 BST.add(1)
 BST.add(10)
+BST.add(7)
 BST.inorder_traversal()
 BST.preorder_traversal()
 BST.postorder_traversal()
 BST.levelorder_traversal()
 print("The height is: ",BST.height())
-BST.mirror()
+#BST.mirror()
 BST.levelorder_traversal()
+print("\nBoundary are", BST.boundary())
